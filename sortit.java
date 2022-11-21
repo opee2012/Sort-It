@@ -1,3 +1,6 @@
+//Jacob Borth
+//borthj2@mailbox.winthrop.edu
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -20,7 +23,7 @@ class Queue {
         this.head = this.tail = null;
     }
 
-    void Enqueue(String data) {
+    void enqueue(String data) {
         Node temp = new Node(data);
 
         // If empty, add node as head/tail
@@ -31,12 +34,12 @@ class Queue {
         }
     }
 
-    String Dequeue() {
+    String dequeue() {
         // check for null
         if (this.head == null) return null;
         else {
             Node temp = this.head;
-            this.head = this.tail.next;
+            this.head = this.head.next;
 
             if (this.head == null) this.tail = null;
 
@@ -46,16 +49,15 @@ class Queue {
 }
 
 public class sortit {
-    public static void main(String[] args) {
+        public static void main(String[] args) {
         String temp;
         Queue list0 = new Queue();
         Queue list1 = new Queue();
 
         for (int i = 0; i < args.length; i++) {
-            String s = args[i];
-            if (s.compareTo("-") != 0) {
+            if (args[i].compareTo("-") != 0) {
                 try {
-                    File file = new File(s);
+                    File file = new File(args[i]);
                     Scanner scanner = new Scanner(file);
                     while (scanner.hasNextLine()) {
                         temp = scanner.nextLine();
@@ -69,7 +71,7 @@ public class sortit {
             } else {
                 Scanner input = new Scanner(System.in);
                 do {
-                    System.out.print("Enter input: ");
+                    System.out.print("Enter a line to be sorted: ");
                     temp = input.nextLine();
                     appendToList(temp, list0, list1, list0);
                 } while (temp.length() != 0);
@@ -79,52 +81,52 @@ public class sortit {
 
         while (list0.head != null && list1.head != null) {
             // temp value to check if list is exhausted
-            list0.Enqueue(null);
-            list1.Enqueue(null);
+            list0.enqueue(null);
+            list1.enqueue(null);
 
             while (list0.head.data != null && list1.head.data != null) {
                 if (list0.head.data.compareTo(list1.head.data) > 0) {
-                    temp = list1.Dequeue();
+                    temp = list1.dequeue();
                     appendToList(temp, list0, list1, list0);
                 } else {
-                    temp = list0.Dequeue();
+                    temp = list0.dequeue();
                     appendToList(temp, list0, list1, list0);
                 }
             }
 
             if (list0.head.data == null) { // list0 exhausted
-                list0.Dequeue();
+                list0.dequeue();
                 while (list1.head.data != null) {
-                    temp = list1.Dequeue();
+                    temp = list1.dequeue();
                     appendToList(temp, list0, list1, list0);
                 }
-                list1.Dequeue();
+                list1.dequeue();
             } else { // list1 exhausted
-                list1.Dequeue();
+                list1.dequeue();
                 while (list0.head.data != null) {
-                    temp = list0.Dequeue();
+                    temp = list0.dequeue();
                     appendToList(temp, list0, list1, list0);
                 }
-                list0.Dequeue();
+                list0.dequeue();
             }
         }
 
-        while (list0.head != null) System.out.println(list0.Dequeue());
-        while (list1.head != null) System.out.println(list1.Dequeue());
+        while (list0.head != null) System.out.println(list0.dequeue());
+        while (list1.head != null) System.out.println(list1.dequeue());
     }
 
     private static void appendToList(String object, Queue list_0, Queue list_1, Queue current_list) {
         if (current_list.tail == null || current_list.tail.data == null) {
-            current_list.Enqueue(object);
+            current_list.enqueue(object);
             return;
         }
         if (current_list.tail.data.compareTo(object) > 0) {
             if (current_list == list_0) current_list = list_1;
             else current_list = list_0;
 
-            current_list.Enqueue(object);
+            current_list.enqueue(object);
             return;
         }
-        current_list.Enqueue(object);
+        current_list.enqueue(object);
     }
 }
